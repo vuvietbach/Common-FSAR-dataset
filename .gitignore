@@ -1,6 +1,7 @@
 raw_file/*
 download_progress/*
 dataset/*
+*.log
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
