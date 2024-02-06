@@ -1,12 +1,15 @@
 raw_file/*
+extract_data/*
 download_progress/*
 dataset/*
+data/*/videos
 *.log
+tmp
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.txt
 # C extensions
 *.so
 
