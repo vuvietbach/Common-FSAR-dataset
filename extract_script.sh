@@ -15,4 +15,5 @@ rm -rf data/ssv2/videos && \
 unzip raw_file/ssv2.zip -d data/ssv2 && mv data/ssv2/smsm_otam data/ssv2/videos && \
 find data/ssv2/videos/ -type f -name "*.webm" -exec sh -c 'ffmpeg -i "$0" -vf "scale='\''if(gt(mod(iw,2),0),iw-1,iw)'\'':'\''if(gt(mod(ih,2),0),ih-1,ih)'\''" -y  "$(dirname "{}")/$(basename "{}" .webm).mp4" && rm "$0"' {} \;
 
+# python code/generate_annotation.py
 # find data/ssv2/videos/ -type f -name "*.webm" -exec sh -c 'ffmpeg -i "$0" -vf "scale='\''if(gt(mod(iw,2),0),iw-1,iw)'\'':'\''if(gt(mod(ih,2),0),ih-1,ih)'\''" -y  "$(dirname "{}")/$(basename "{}" .webm).mp4" && rm "$0"' {} \;

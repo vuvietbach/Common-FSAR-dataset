@@ -1,6 +1,7 @@
 import yaml
 import glob
 import os
+import shutil
 def read_yaml(file_path):
     with open(file_path, 'r') as stream:
         try:
@@ -17,7 +18,6 @@ def generate_annotation_kinetics():
     prefix = ['train', 'val', 'test']
     
     root_dir = 'CLIPFSAR_original_annotations/kinetics100'
-    annotation_write_dir = 'data/kinetics/annotations'
     vid_dir = 'data/kinetics/videos'
     
     # extract class id
@@ -46,6 +46,8 @@ def generate_annotation_kinetics():
         vid_paths = [f'{tmp}//{cls_name}/{vid_name}' for vid_name in vid_names]
         annotation_data[split].extend(vid_paths)
     
+    annotation_write_dir = 'data/kinetics/annotations'
+    os.makedirs(annotation_write_dir, exist_ok=True)
     for split in annotation_data:
         path = f'{annotation_write_dir}/{split}_few_shot.txt'
         with open(path, 'w') as file:
@@ -67,11 +69,29 @@ def generate_annotation_ssv2():
         annotation_data[split].extend(vid_paths)
     
     annotation_write_dir = 'data/ssv2/annotations'
+    os.makedirs(annotation_write_dir, exist_ok=True)
     for split in annotation_data:
         path = f'{annotation_write_dir}/{split}_few_shot.txt'
         with open(path, 'w') as file:
             file.write('\n'.join(annotation_data[split]))
+            
+def generate_annotation_hmdb51_ucf101():
+    files = ['train_few_shot.txt', 'val_few_shot.txt', 'test_few_shot.txt']
+    input_dirs = ['CLIPFSAR_original_annotations/hmdb51', 'CLIPFSAR_original_annotations/ucf101']
+    output_dirs = ['data/hmdb51/annotations', 'data/ucf101/annotations']
+    for i, input_dir in enumerate(input_dirs):
+        os.makedirs(output_dirs[i], exist_ok=True)
+        for file in files:
+            src = f'{input_dir}/{file}'
+            dst = f'{output_dirs[i]}/{file}'
+            try:
+                shutil.copyfile(src, dst)
+            except FileExistsError:
+                os.remove(dst)  # Remove existing file
+                shutil.copyfile(src, dst)  # Copy again
+        
     
 if __name__ == '__main__':
+    generate_annotation_hmdb51_ucf101()
     # generate_annotation_kinetics()
-    generate_annotation_ssv2()
+    # generate_annotation_ssv2()
