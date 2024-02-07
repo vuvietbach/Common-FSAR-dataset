@@ -4,9 +4,10 @@ unrar x -r raw_file/hmdb.rar extract_data/hmdb && \
 find extract_data/hmdb/ -type f -name "*.rar" -exec unrar x -kb {} data/hmdb51/videos \;
 
 mkdir -p extract_data/ucf101 && \
-mkdir -p data/ucf101/videos && \
-unrar x -r raw_file/ucf.rar extract_data/ucf101 && \
-find extract_data/ucf101/ -type f -name "*.rar" -exec unrar x -kb {} data/ucf101/videos \;
+rm -rf data/ucf101/videos && \
+unrar x -r raw_file/ucf.rar data/ucf101 && \
+mv data/ucf101/UCF-101 data/ucf101/videos
+# find extract_data/ucf101/ -type f -name "*.rar" -exec unrar x -kb {} data/ucf101/videos \;
 
 rm -rf data/kinetics/videos && \
 unzip raw_file/kinetics.zip -d data/kinetics && mv data/kinetics/kinetics_100 data/kinetics/videos
